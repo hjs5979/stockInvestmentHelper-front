@@ -1,0 +1,34 @@
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import React from 'react';
+
+export default function StockTable(props){
+    const stockData = props.data;
+    return (
+        <div className="stock">
+            <TableContainer component={Paper}>
+              <Table size="small">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>No</TableCell>
+                    <TableCell align="right">테마</TableCell>
+                    <TableCell align="right">전일대비등락</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {stockData.map(({id, thema, value}) => (
+                  <TableRow key={id}>
+                    <TableCell>{id}</TableCell>
+                    <TableCell align="right">
+                    <p onClick={()=>{window.open("https://www.hanaw.com/main/research/research/list.cmd?pid=0&cid=0&srchTitle=ALL&srchWord=" + {thema}.thema + "&startDate=2023-03-02&endDate=2023-03-09")}}>
+                      {thema}
+                    </p>               
+                    </TableCell>
+                    <TableCell align="right">{value}</TableCell>
+                  </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
+    )
+}
