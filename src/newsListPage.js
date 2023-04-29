@@ -27,11 +27,11 @@ export default function NewsListPage(props) {
             ))} */}
             {!loading && <NewsListTable data={data} />}
             
-            <Link to={"https://www.hanaw.com/main/research/research/list.cmd?pid=0&cid=0&srchTitle=ALL&srchWord=" + param.word + "&startDate=2023-03-02&endDate=2023-03-09"}>
-            리서치 센터로 이동
+            <Link style={{textDecoration:'none'}}to={"https://www.hanaw.com/main/research/research/list.cmd?pid=0&cid=0&srchTitle=ALL&srchWord=" + param.word + "&startDate=2023-03-02&endDate=2023-03-09"}>
+            <Button>리서치 센터로 이동            </Button>
             </Link>
             <br/>
-            <Link to="/">뒤로 가기</Link>
+            <Link to="/" style={{textDecoration:'none'}}><Button>뒤로 가기</Button></Link>
         </div>
     );
   }
