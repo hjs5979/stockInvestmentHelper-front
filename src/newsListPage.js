@@ -12,7 +12,7 @@ export default function NewsListPage(props) {
     useEffect(()=>{
         const getAsyncData = async ()=>{
             setLoading(true);
-            const ad =  await axios.get("http://sa.thxx.xyz:8080/main/word?wordid="+state.id)
+            const ad =  await axios.get("https://sa.thxx.xyz:8080/main/word?wordid="+state.id)
             setData(ad.data.data);
             setLoading(false);
         }
@@ -31,7 +31,7 @@ export default function NewsListPage(props) {
             리서치 센터로 이동
             </Link>
             <br/>
-            <Link to="/">뒤로 가보셈</Link>
+            <Link to="/">뒤로 가기</Link>
         </div>
     );
   }
