@@ -26,11 +26,11 @@ export default function MainPage(){
         // loading 상태를 true 로 바꿉니다.
         setLoading(true);
         const response = await axios.get(
-          'http://sa.thxx.xyz:8080/main/words'
+          'https://sa.thxx.xyz:8080/main/words'
         );
 
         const response2 = await axios.get(
-          'http://sa.thxx.xyz:8080/main/stock'
+          'https://sa.thxx.xyz:8080/main/stock'
         );
         setWords(response.data); // 데이터는 response.data 안에 들어있습니다.
         setStock(response2.data)
