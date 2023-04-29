@@ -2,6 +2,7 @@ import React,{ useEffect, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
 import NewsListTable from './newsListTable';
+import { Button } from '@mui/material';
 
 export default function NewsListPage(props) {
     const {state} = useLocation();
