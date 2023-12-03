@@ -1,38 +1,83 @@
-import React,{ useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
 import NewsListTable from './newsListTable';
-import { Button } from '@mui/material';
+import {
+  Box,
+  Button,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from '@mui/material';
+import Menu from './Menu';
 
 export default function NewsListPage(props) {
-    const {state} = useLocation();
-    const param = useParams();
-    const [data, setData] = useState(null);
-    const [loading,setLoading] = useState(true);
+  const { state } = useLocation();
+  const param = useParams();
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    useEffect(()=>{
-        const getAsyncData = async ()=>{
-            setLoading(true);
-            const ad =  await axios.get("https://sa.thxx.xyz:8080/main/word?wordid="+state.id)
-            setData(ad.data.data);
-            setLoading(false);
-        }
-        getAsyncData();
-        console.log(data);
-    },[param.word])
+  const apiUrl = process.env.REACT_APP_API_URL;
 
-    return (
-        <div>
-            {/* {!loading && data.map((news)=>(
-                <p>{news.id} {news.category} {news.title} {news.url}</p>
-            ))} */}
-            {!loading && <NewsListTable data={data} />}
-            
-            <Link style={{textDecoration:'none'}}to={"https://www.hanaw.com/main/research/research/list.cmd?pid=0&cid=0&srchTitle=ALL&srchWord=" + param.word + "&startDate=2023-03-02&endDate=2023-03-09"}>
-            <Button>리서치 센터로 이동            </Button>
-            </Link>
-            <br/>
-            <Link to="/" style={{textDecoration:'none'}}><Button>뒤로 가기</Button></Link>
+  useEffect(() => {
+    const getAsyncData = async () => {
+      setLoading(true);
+      const response = await axios.post(apiUrl + 'main/detail', {
+        wordId: state.id,
+      });
+      setData(response.data);
+      setLoading(false);
+    };
+    getAsyncData();
+  }, [param.word]);
+
+  console.log(data);
+
+  return (
+    <Menu stockYn={true}>
+      <div>
+        <div className='newsList'>
+          <Box>
+            <TableContainer
+              component={Paper}
+              sx={{ margin: '20px', width: '1200px' }}
+            >
+              <Table size='small'>
+                <TableHead>
+                  <TableRow>
+                    <TableCell align='center'>기사제목</TableCell>
+                    {/* <TableCell align="right">카테고리</TableCell> */}
+                    <TableCell align='center'>링크</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {data &&
+                    data.map((item) => (
+                      <TableRow key={item.newsId}>
+                        <TableCell align='center'>{item.newsTitle}</TableCell>
+                        {/* <TableCell align="right">{category}</TableCell> */}
+                        <TableCell align='center'>
+                          <a
+                            href={item.newsUrl}
+                            target='_blank'
+                            rel='noopener noreferrer'
+                          >
+                            {' '}
+                            이동{' '}
+                          </a>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Box>
         </div>
-    );
-  }
+      </div>
+    </Menu>
+  );
+}
