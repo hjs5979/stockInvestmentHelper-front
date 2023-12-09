@@ -172,7 +172,7 @@ export default function SigninPage() {
               </DialogContentText>
             ) : (
               <DialogContentText id='alert-dialog-description'>
-                중복된 아이디입니다.
+                중복된 아이디입니다..
               </DialogContentText>
             )}
           </DialogContent>
