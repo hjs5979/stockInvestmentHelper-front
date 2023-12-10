@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { TagCloud } from 'react-tagcloud';
 import './App.css';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Box,
   Button,
@@ -27,9 +27,14 @@ import Menu from './Menu';
 export default function BoardPage() {
   const apiUrl = process.env.REACT_APP_API_URL;
 
-  const [inqCndt, setInqCndt] = useState({ inqCndtCon: '' });
+  const [inqCndt, setInqCndt] = useState({ inqCndtCon: '', inqCndtDcd: '10' });
 
-  const [searchParam, setSearchParam] = useState({ inqCndtCon: '' });
+  const [searchParam, setSearchParam] = useState({
+    inqCndtCon: '',
+    inqCndtDcd: '10',
+  });
+
+  const navigate = useNavigate();
 
   const [board, setBoard] = useState(null);
   const [boardCnt, setBoardCnt] = useState(null);
@@ -72,6 +77,10 @@ export default function BoardPage() {
   const handleChange = (event, cndt) => {
     console.log(event);
     setInqCndt({ ...inqCndt, [cndt]: event.target.value });
+  };
+
+  const rowClick = (event, item) => {
+    navigate(`/board/${item.boardId}`);
   };
 
   return (
@@ -126,8 +135,12 @@ export default function BoardPage() {
               <TableBody>
                 {board &&
                   board.map((item, index) => (
-                    <TableRow key={item.boardId}>
-                      <TableCell align='center'>{index}</TableCell>
+                    <TableRow
+                      key={item.boardId}
+                      onClick={(e) => rowClick(e, item)}
+                      hover={true}
+                    >
+                      <TableCell align='center'>{boardCnt - index}</TableCell>
                       <TableCell align='center'>{item.boardTitle}</TableCell>
                       <TableCell align='center'>{item.boardWrtId}</TableCell>
                       <TableCell align='center'>{item.boardTitle}</TableCell>

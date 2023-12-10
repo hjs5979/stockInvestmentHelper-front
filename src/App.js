@@ -11,6 +11,7 @@ import LoginPage from './LoginPage';
 import SigninPage from './SigninPage';
 import BoardPage from './BoardPage';
 import StockTable from './StockTable';
+import BoardDetailPage from './BoardDetailPage';
 import { Card } from '@mui/material';
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path='/login' exact element={<LoginPage />} />
         <Route path='/signin' exact element={<SigninPage />} />
         <Route path='/board' exact element={<BoardPage />} />
+        <Route path='/board/:boardId' exact element={<BoardDetailPage />} />
       </Routes>
     </ThemeProvider>
   );
