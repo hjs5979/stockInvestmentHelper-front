@@ -39,6 +39,8 @@ export default function BoardPage() {
   const [board, setBoard] = useState(null);
   const [boardCnt, setBoardCnt] = useState(null);
 
+  //젠킨스 테스트용 주석
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
