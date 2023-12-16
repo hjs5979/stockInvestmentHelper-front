@@ -1,27 +1,9 @@
 import React, { useState, useEffect } from 'react';
 // import * as React from "react";
-import { TagCloud } from 'react-tagcloud';
 import './App.css';
 import axios from 'axios';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-import {
-  Box,
-  Button,
-  Card,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Paper,
-  Select,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { useNavigate, useParams } from 'react-router-dom';
+import { Button, Typography } from '@mui/material';
 import Menu from './Menu';
 
 export default function BoardDetailPage() {

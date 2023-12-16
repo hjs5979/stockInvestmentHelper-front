@@ -110,7 +110,7 @@ const Menu = ({ children, stockYn }) => {
           {children}
         </div>
         <div>
-          {stockYn && stockYn == true ? (
+          {stockYn && stockYn === true ? (
             <Card
               sx={{
                 flexGrow: 1,

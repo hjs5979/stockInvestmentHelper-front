@@ -93,7 +93,7 @@ export default function SigninPage() {
     }),
     validate: (values) => {
       const errors = {};
-      if (idCheck == 1) {
+      if (idCheck === 1) {
         errors.id = '중복된 아이디는 사용할 수 없습니다.';
       }
       return errors;
@@ -166,7 +166,7 @@ export default function SigninPage() {
           aria-describedby='alert-dialog-description'
         >
           <DialogContent>
-            {idCheck == 0 ? (
+            {idCheck === 0 ? (
               <DialogContentText id='alert-dialog-description'>
                 사용가능한 아이디입니다.
               </DialogContentText>

@@ -18,7 +18,7 @@ export default function StockTable(props) {
   const [order, setOrder] = React.useState('asc');
 
   const createSortHandler = (event) => {
-    if (order == 'desc') {
+    if (order === 'desc') {
       sortedStock = stockData?.sort((a, b) => b.stockValue - a.stockValue);
     } else {
       sortedStock = stockData?.sort((a, b) => a.stockValue - b.stockValue);
