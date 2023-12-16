@@ -10,7 +10,7 @@ import Menu from './Menu';
 
 export default function MainPage() {
   const apiUrl = process.env.REACT_APP_API_URL;
-
+  console.log(apiUrl);
   const [word, setWord] = useState(null);
   const [stock, setStock] = useState(null);
   const [loading, setLoading] = useState(false);
