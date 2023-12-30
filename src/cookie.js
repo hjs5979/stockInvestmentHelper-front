@@ -23,14 +23,23 @@ import Cookies from 'js-cookie';
 //   Cookies.set(EMPID, empid);
 // }
 
-const getToken = () => {
-  return Cookies.get('userId');
+const getAccessToken = () => {
+  return localStorage.getItem('accessToken');
   // console.log(Cookies.get("userId"));
 };
 
-// const setToken = (token) => {
-//     Cookies.set("userId", token);
-// }
+const getRefreshToken = () => {
+  return localStorage.getItem('refreshToken');
+  // console.log(Cookies.get("userId"));
+};
+
+const setAccessToken = (token) => {
+  localStorage.setItem('accessToken', token);
+};
+
+const setRefreshToken = (token) => {
+  localStorage.setItem('refreshToken', token);
+};
 
 const getUserInfo = () => {
   const userInfoJson = localStorage.getItem('userInfo');
@@ -56,10 +65,10 @@ const setUserInfo = (info) => {
   localStorage.setItem('userInfo', infoJson);
 };
 
-const removeToken = () => {
-  localStorage.removeItem('userInfo');
-  Cookies.remove('userId');
-};
+// const removeToken = () => {
+//   localStorage.removeItem('userInfo');
+//   localStorage.removeItem('authorization');
+// };
 
 // const ssoLogin = () => {
 //   // console.log('sso login', process.env.NEXT_PUBLIC_MODE)
@@ -73,13 +82,13 @@ const removeToken = () => {
 // }
 
 const logout = () => {
-  removeToken();
+  // removeToken();
   localStorage.clear();
   window.location.href = `/`;
 };
 
 const hasValidToken = () => {
-  if (getToken() !== null && getToken() !== undefined) {
+  if (getAccessToken() !== null && getAccessToken() !== undefined) {
     return true;
   } else {
     return false;
@@ -109,11 +118,13 @@ export {
   logout,
   //   getEmpId,
   //   setEmpId,
+  setAccessToken,
+  setRefreshToken,
   getUserInfo,
   setUserInfo,
-  getToken,
-  // setToken,
-  removeToken,
+  getAccessToken,
+  getRefreshToken,
+  // removeToken,
   hasValidToken,
   getIsAdmin,
   //   getSearchParams, setSearchParams, removeSearchParams

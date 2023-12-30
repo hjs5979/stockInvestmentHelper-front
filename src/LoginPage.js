@@ -21,7 +21,13 @@ import StockTable from './StockTable';
 import { Formik, Field, Form, ErrorMessage, useFormik } from 'formik';
 import * as Yup from 'yup';
 import Cookies from 'js-cookie';
-import { getToken, setUserInfo } from './cookie';
+import {
+  getToken,
+  setAccessToken,
+  setRefreshToken,
+  setToken,
+  setUserInfo,
+} from './cookie';
 import Menu from './Menu';
 
 export default function LoginPage() {
@@ -40,6 +46,18 @@ export default function LoginPage() {
     setOpen(false);
   };
 
+  const userInfo = async (id) => {
+    try {
+      const response = await axios
+        .post(apiUrl + 'user/selectUser', { userId: id })
+        .then((resp) => {
+          setUserInfo(resp.data);
+        });
+    } catch (e) {
+      console.log('selectUser', e);
+    }
+  };
+
   const login = async (values) => {
     try {
       // 요청이 시작 할 때에는 error 와 users 를 초기화하고
@@ -55,13 +73,17 @@ export default function LoginPage() {
           { withCredentials: true }
         )
         .then((resp) => {
-          setUserInfo(resp.data);
-          getToken();
+          setAccessToken(resp.data.accessToken);
+          setRefreshToken(resp.data.refreshToken);
+
+          userInfo(values.id);
+          // getToken();
         });
       window.location.href = `/`;
 
       // console.log(response);
     } catch (e) {
+      console.log(e);
       setError(e);
       setOpen(true);
     }

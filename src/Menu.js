@@ -4,13 +4,20 @@ import PaidIcon from '@mui/icons-material/Paid';
 import SihIcon from './sihicon.png';
 import SihTypo from './sihtypo.png';
 import { Link } from 'react-router-dom';
-import { getToken, getUserInfo, logout } from './cookie';
+import {
+  getAccessToken,
+  getRefreshToken,
+  getUserInfo,
+  logout,
+  setAccessToken,
+  setRefreshToken,
+} from './cookie';
 import StockTable from './StockTable';
 import axios from 'axios';
 
 const Menu = ({ children, stockYn }) => {
   const apiUrl = process.env.REACT_APP_API_URL;
-  const loginYn = getToken();
+  const [loginYn, setLoginYn] = React.useState(false);
 
   const userId = getUserInfo()?.userId;
 
@@ -18,24 +25,51 @@ const Menu = ({ children, stockYn }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const [accessToken] = React.useState(getAccessToken());
+  const [refreshToken] = React.useState(getRefreshToken());
+
+  // useEffect(()=>{
+
+  // },[accessToken, refreshToken])
+
+  const checkUser = async () => {
+    try {
+      const response = await axios
+        .post(apiUrl + 'user/checkUser', {
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+          userId: userId,
+        })
+        .then((resp) => {
+          setAccessToken(resp.data.accessToken);
+          setRefreshToken(resp.data.refreshToken);
+          setLoginYn(true);
+        });
+    } catch (e) {
+      console.log(e);
+      setLoginYn(false);
+    }
+  };
+
+  const fetchStock = async () => {
+    try {
+      // 요청이 시작 할 때에는 error 와 users 를 초기화하고
+      setError(null);
+      setStock(null);
+      // loading 상태를 true 로 바꿉니다.
+      setLoading(true);
+
+      const response = await axios.get(apiUrl + 'main/stock');
+      setStock(response.data);
+    } catch (e) {
+      setError(e);
+    }
+    setLoading(false);
+  };
+
   useEffect(() => {
-    const fetchStock = async () => {
-      try {
-        // 요청이 시작 할 때에는 error 와 users 를 초기화하고
-        setError(null);
-        setStock(null);
-        // loading 상태를 true 로 바꿉니다.
-        setLoading(true);
-
-        const response = await axios.get(apiUrl + 'main/stock');
-        setStock(response.data);
-      } catch (e) {
-        setError(e);
-      }
-      setLoading(false);
-    };
-
     fetchStock();
+    checkUser();
   }, []);
 
   return (
@@ -63,14 +97,14 @@ const Menu = ({ children, stockYn }) => {
           to={'/board'}
           style={{ marginLeft: 'auto', marginRight: '40px', marginTop: '10px' }}
         >
-          <Button variant='text'>정보게시판</Button>
+          <Button variant='outlined'>정보게시판</Button>
         </Link>
         {loginYn ? (
           <div style={{ marginRight: '40px', marginTop: '10px' }}>
             환영합니다. {userId}님
             <div style={{ marginLeft: '60px' }}>
               <Link
-                to={'/login'}
+                to={'/mypage'}
                 style={{ fontSize: '10px', marginRight: '10px' }}
               >
                 <span>마이페이지</span>
@@ -90,7 +124,7 @@ const Menu = ({ children, stockYn }) => {
             </Link>
 
             <Link
-              to={'/signin'}
+              to={'/signup'}
               style={{ marginRight: '10px', fontSize: '10px' }}
             >
               <span>회원가입</span>

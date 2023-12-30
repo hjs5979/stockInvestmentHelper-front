@@ -5,6 +5,13 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button, Typography } from '@mui/material';
 import Menu from './Menu';
+import {
+  getAccessToken,
+  getRefreshToken,
+  getUserInfo,
+  setAccessToken,
+  setRefreshToken,
+} from './cookie';
 
 export default function BoardDetailPage() {
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -18,26 +25,52 @@ export default function BoardDetailPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchBoardDetail = async () => {
-      try {
-        // 요청이 시작 할 때에는 error 와 users 를 초기화하고
-        setError(null);
-        setBoardDetail(null);
-        // loading 상태를 true 로 바꿉니다.
-        setLoading(true);
-        const response = await axios.post(apiUrl + `board/detail`, {
-          boardId: param.boardId,
+  const userId = getUserInfo()?.userId;
+  const [accessToken] = React.useState(getAccessToken());
+  const [refreshToken] = React.useState(getRefreshToken());
+
+  const [loginYn, setLoginYn] = React.useState(false);
+
+  const checkUser = async () => {
+    try {
+      const response = await axios
+        .post(apiUrl + 'user/checkUser', {
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+          userId: userId,
+        })
+        .then((resp) => {
+          setAccessToken(resp.data.accessToken);
+          setRefreshToken(resp.data.refreshToken);
+          setLoginYn(true);
         });
+    } catch (e) {
+      console.log(e);
+      console.log('로그인 필요');
+    }
+  };
 
-        setBoardDetail(response.data); // 데이터는 response.data 안에 들어있습니다.
-      } catch (e) {
-        setError(e);
-      }
-      setLoading(false);
-    };
+  const fetchBoardDetail = async () => {
+    try {
+      // 요청이 시작 할 때에는 error 와 users 를 초기화하고
+      setError(null);
+      setBoardDetail(null);
+      // loading 상태를 true 로 바꿉니다.
+      setLoading(true);
+      const response = await axios.post(apiUrl + `board/detail`, {
+        boardId: param.boardId,
+      });
 
+      setBoardDetail(response.data); // 데이터는 response.data 안에 들어있습니다.
+    } catch (e) {
+      setError(e);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
     fetchBoardDetail();
+    checkUser();
   }, []);
 
   if (error) return <div>에러가 발생했습니다</div>;

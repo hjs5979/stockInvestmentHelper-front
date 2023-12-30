@@ -17,7 +17,9 @@ import {
   TableBody,
   TableCell,
   TableContainer,
+  TableFooter,
   TableHead,
+  TablePagination,
   TableRow,
   TextField,
   Typography,
@@ -85,6 +87,10 @@ export default function BoardPage() {
     navigate(`/board/${item.boardId}`);
   };
 
+  const addFunc = () => {
+    navigate('/board/add');
+  };
+
   return (
     <Menu stockYn={true}>
       <div>
@@ -111,8 +117,8 @@ export default function BoardPage() {
           </Button>
 
           <Button
-            sx={{ marginLeft: 'auto', marginRight: '200px' }}
-            onClick={search}
+            sx={{ marginLeft: 'auto', marginRight: '100px' }}
+            onClick={() => addFunc()}
             variant='contained'
           >
             글쓰기
@@ -141,6 +147,7 @@ export default function BoardPage() {
                       key={item.boardId}
                       onClick={(e) => rowClick(e, item)}
                       hover={true}
+                      selected={true}
                     >
                       <TableCell align='center'>{boardCnt - index}</TableCell>
                       <TableCell align='center'>{item.boardTitle}</TableCell>

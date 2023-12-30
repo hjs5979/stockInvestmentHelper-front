@@ -8,10 +8,13 @@ import { ThemeProvider } from '@emotion/react';
 import theme from './theme';
 import Menu from './Menu';
 import LoginPage from './LoginPage';
-import SigninPage from './SigninPage';
+import SignupPage from './SignupPage';
 import BoardPage from './BoardPage';
 import StockTable from './StockTable';
 import BoardDetailPage from './BoardDetailPage';
+import BoardAddPage from './BoardAddPage';
+import MypagePage from './MypagePage';
+
 import { Card } from '@mui/material';
 
 function App() {
@@ -21,9 +24,11 @@ function App() {
         <Route path='/' exact element={<MainPage />} />
         <Route path='/:word' exact element={<NewsListPage />} />
         <Route path='/login' exact element={<LoginPage />} />
-        <Route path='/signin' exact element={<SigninPage />} />
+        <Route path='/signup' exact element={<SignupPage />} />
         <Route path='/board' exact element={<BoardPage />} />
         <Route path='/board/:boardId' exact element={<BoardDetailPage />} />
+        <Route path='/board/add' exact element={<BoardAddPage />} />
+        <Route path='/mypage' exact element={<MypagePage />} />
       </Routes>
     </ThemeProvider>
   );
