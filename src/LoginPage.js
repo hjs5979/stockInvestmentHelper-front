@@ -78,8 +78,8 @@ export default function LoginPage() {
 
           userInfo(values.id);
           // getToken();
-        });
-      // .then((window.location.href = `/`));
+        })
+        .then(() => (window.location.href = `/`));
       // window.location.href = `/`;
 
       // console.log(response);
