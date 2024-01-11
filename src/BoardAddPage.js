@@ -53,7 +53,7 @@ export default function BoardAddPage() {
 
   const handleCloseReg = () => {
     setOpen(false);
-    goList();
+    navigate('/board');
   };
   // ======================== 등록완료 팝업 end =============================
 
