@@ -78,8 +78,9 @@ export default function LoginPage() {
 
           userInfo(values.id);
           // getToken();
-        });
-      window.location.href = `/`;
+        })
+        .then((window.location.href = `/`));
+      // window.location.href = `/`;
 
       // console.log(response);
     } catch (e) {
