@@ -26,6 +26,7 @@ import {
 } from '@mui/material';
 import Menu from './Menu';
 import moment from 'moment';
+import AttachmentIcon from '@mui/icons-material/Attachment';
 
 export default function BoardPage() {
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -137,6 +138,7 @@ export default function BoardPage() {
                   <TableCell align='center'>순번</TableCell>
                   {/* <TableCell align="right">카테고리</TableCell> */}
                   <TableCell align='center'>제목</TableCell>
+                  <TableCell align='center'>첨부파일</TableCell>
                   <TableCell align='center'>작성자ID</TableCell>
                   <TableCell align='center'>등록일자</TableCell>
                 </TableRow>
@@ -152,6 +154,9 @@ export default function BoardPage() {
                     >
                       <TableCell align='center'>{boardCnt - index}</TableCell>
                       <TableCell align='center'>{item.boardTitle}</TableCell>
+                      <TableCell align='center'>
+                        {item.atchYn == 1 ? <AttachmentIcon /> : ''}
+                      </TableCell>
                       <TableCell align='center'>{item.boardWrtId}</TableCell>
                       <TableCell align='center'>
                         {moment(item.boardCretTs).format('YYYY-MM-DD')}
