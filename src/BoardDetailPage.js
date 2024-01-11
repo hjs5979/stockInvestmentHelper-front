@@ -99,9 +99,7 @@ export default function BoardDetailPage() {
 
       setInitialValues(response.data);
     } catch (e) {
-      if (e.response.data?.message == '유효하지 않음1') {
-        setOpen(true);
-      }
+      setOpen(true);
     }
   };
 
