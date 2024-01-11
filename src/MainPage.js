@@ -10,8 +10,7 @@ import Menu from './Menu';
 
 export default function MainPage() {
   const apiUrl = process.env.REACT_APP_API_URL;
-  console.log(apiUrl);
-  console.log(process.env);
+
   const [word, setWord] = useState(null);
   const [stock, setStock] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -45,7 +44,7 @@ export default function MainPage() {
   if (!stock) return null;
 
   const sortedItems = word
-    ?.slice(0, 30)
+    ?.slice(0, 40)
     .sort((a, b) => b.wordCount - a.wordCount);
 
   let result = sortedItems?.map(

@@ -25,6 +25,7 @@ import {
   Typography,
 } from '@mui/material';
 import Menu from './Menu';
+import moment from 'moment';
 
 export default function BoardPage() {
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -128,7 +129,7 @@ export default function BoardPage() {
           {/* <Box sx={{display:"flex", flexGrow:1, justifyContent:'center',width:'70%',flexDirection:'column'}}> */}
           <TableContainer
             component={Paper}
-            sx={{ margin: '20px', width: '1200px' }}
+            sx={{ margin: '20px', width: '1100px' }}
           >
             <Table size='small'>
               <TableHead>
@@ -152,7 +153,9 @@ export default function BoardPage() {
                       <TableCell align='center'>{boardCnt - index}</TableCell>
                       <TableCell align='center'>{item.boardTitle}</TableCell>
                       <TableCell align='center'>{item.boardWrtId}</TableCell>
-                      <TableCell align='center'>{item.boardTitle}</TableCell>
+                      <TableCell align='center'>
+                        {moment(item.boardCretTs).format('YYYY-MM-DD')}
+                      </TableCell>
                     </TableRow>
                   ))}
               </TableBody>
