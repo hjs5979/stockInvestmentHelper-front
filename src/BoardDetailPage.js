@@ -95,9 +95,13 @@ export default function BoardDetailPage() {
 
       setBoardDetail(response.data); // 데이터는 response.data 안에 들어있습니다.
 
-      formik.setValues(response.data);
-
-      setInitialValues(response.data);
+      if (response.data.fileList == null) {
+        formik.setValues({ ...response.data, fileList: [] });
+        setInitialValues({ ...response.data, fileList: [] });
+      } else {
+        formik.setValues(response.data);
+        setInitialValues(response.data);
+      }
     } catch (e) {
       setOpen(true);
     }
@@ -184,8 +188,10 @@ export default function BoardDetailPage() {
           cancelFile.atchDtlno
         );
       });
+      if (values.atchNo != null) {
+        formData.append('atchNo', values.atchNo);
+      }
 
-      formData.append('atchNo', values.atchNo);
       formData.append('atchTtlSize', values.atchTtlSize);
       formData.append('atchCnt', values.atchCnt);
 
@@ -245,7 +251,7 @@ export default function BoardDetailPage() {
       setCancelFileList([...cancelFileList, cancelFile]);
     }
   };
-  // console.log(cancelFiles);
+  console.log(formik.values);
   // ======================== 파일 업로드 end ==============================
 
   // ========================= ReactQuill 설정 start =============================
@@ -349,6 +355,7 @@ export default function BoardDetailPage() {
 
         <List>
           {boardDetail?.fileList &&
+            boardDetail?.fileList.length > 0 &&
             boardDetail?.fileList.map((item, index) => (
               <div key={index + 0}>
                 <div
