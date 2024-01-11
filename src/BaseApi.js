@@ -1,12 +1,13 @@
 import { RttOutlined } from '@mui/icons-material';
 import axios from 'axios';
 
-const instance = (at, rt, userId) =>
+const instance = (at, rt, userId, userRole) =>
   axios.create({
     headers: {
       accessToken: at,
       refreshToken: rt,
       userId: userId,
+      userRole: userRole,
     },
   });
 

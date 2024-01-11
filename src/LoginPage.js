@@ -76,9 +76,9 @@ export default function LoginPage() {
           setAccessToken(resp.data.accessToken);
           setRefreshToken(resp.data.refreshToken);
 
-          userInfo(values.id);
           // getToken();
         })
+        .then(userInfo(values.id))
         .then(() => (window.location.href = `/`));
       // window.location.href = `/`;
 

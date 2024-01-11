@@ -60,6 +60,16 @@ const getUserInfo = () => {
   // return Cookies.get(USER);
 };
 
+const getUserRole = () => {
+  const userInfoJson = localStorage.getItem('userInfo');
+
+  const userInfo = JSON.parse(userInfoJson);
+
+  const userRole = userInfo.userRole;
+
+  return userRole;
+};
+
 const setUserInfo = (info) => {
   const infoJson = JSON.stringify(info);
   localStorage.setItem('userInfo', infoJson);
@@ -127,5 +137,6 @@ export {
   // removeToken,
   hasValidToken,
   getIsAdmin,
+  getUserRole,
   //   getSearchParams, setSearchParams, removeSearchParams
 };

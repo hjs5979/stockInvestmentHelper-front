@@ -22,6 +22,7 @@ import {
   getAccessToken,
   getRefreshToken,
   getUserInfo,
+  getUserRole,
   setAccessToken,
   setRefreshToken,
 } from './cookie';
@@ -43,11 +44,15 @@ export default function BoardDetailPage() {
 
   const param = useParams();
 
+  const [error, setError] = React.useState();
+
   const [boardDetail, setBoardDetail] = useState(null);
 
   const userId = getUserInfo()?.userId;
   const [accessToken] = React.useState(getAccessToken());
   const [refreshToken] = React.useState(getRefreshToken());
+
+  const userRole = getUserRole();
 
   const [mode, setMode] = React.useState('view');
 
@@ -103,7 +108,15 @@ export default function BoardDetailPage() {
         setInitialValues(response.data);
       }
     } catch (e) {
-      setOpen(true);
+      if (
+        (e.response.data?.message == '유효하지 않음1') |
+        (e.response.data?.message == '유효하지 않음2')
+      ) {
+        setOpen(true);
+      } else {
+        setError(e.repsonse.data.message);
+        setOpenError(true);
+      }
     }
   };
 
@@ -136,7 +149,8 @@ export default function BoardDetailPage() {
           link.click();
         });
     } catch (e) {
-      console.log(e);
+      setError(e.repsonse.data.message);
+      setOpenError(true);
     }
   };
 
@@ -275,8 +289,14 @@ export default function BoardDetailPage() {
         .post(apiUrl + `board/mdfc`, values)
         .then(() => setOpenMdfc(true));
     } catch (e) {
-      if (e.response.data?.message == '유효하지 않음1') {
+      if (
+        (e.response.data?.message == '유효하지 않음1') |
+        (e.response.data?.message == '유효하지 않음2')
+      ) {
         setOpen(true);
+      } else {
+        setError(e.repsonse.data.message);
+        setOpenError(true);
       }
     }
   };
@@ -304,7 +324,57 @@ export default function BoardDetailPage() {
     setOpenCheck(false);
   };
 
-  // ========================== 목록이동 취소 end ===============================
+  // ========================== 목록이동 취소 end =================================
+
+  // ========================== 게시판 삭제 API start =============================
+
+  const deleteBoard = async () => {
+    try {
+      const response = await instance(
+        accessToken,
+        refreshToken,
+        userId,
+        userRole
+      ).post(apiUrl + `board/delete`, { boardId: param.boardId });
+    } catch (e) {
+      setError(e.repsonse.data.message);
+      setOpenError(e.repsonse.data.message);
+    }
+  };
+
+  // ========================== 게시판 삭제 API end ===============================
+
+  // ======================== 삭제 확인 팝업 start =============================
+  const [openDel, setOpenDel] = useState(false);
+
+  const handleCloseDelY = () => {
+    deleteBoard();
+    setOpenDel(false);
+    setOpenDelDone(true);
+  };
+
+  const handleCloseDelN = () => {
+    setOpenDel(false);
+  };
+
+  // ======================== 삭제 확인 팝업 end =============================
+
+  // ======================== 삭제 완료 팝업 start =============================
+  const [openDelDone, setOpenDelDone] = useState(false);
+
+  const handleCloseDelDone = () => {
+    setOpenDelDone(false);
+    navigate('/board');
+  };
+  // ======================== 삭제 완료 팝업 end =============================
+
+  // ======================== 오류 팝업 start =============================
+  const [openError, setOpenError] = useState(false);
+
+  const handleCloseError = () => {
+    setOpenDelDone(false);
+  };
+  // ======================== 오류 팝업 end =============================
 
   const ViewTemplate = () => {
     return (
@@ -395,7 +465,11 @@ export default function BoardDetailPage() {
               >
                 수정
               </Button>
-              <Button variant='contained' sx={{ marginRight: '10px' }}>
+              <Button
+                variant='outlined'
+                sx={{ marginRight: '10px' }}
+                onClick={() => setOpenDel(true)}
+              >
                 삭제
               </Button>
             </div>
@@ -572,6 +646,43 @@ export default function BoardDetailPage() {
         <DialogActions>
           <Button onClick={handleCloseCheckY}>확인</Button>
           <Button onClick={handleCloseCheckN}>취소</Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={openDel}
+        onClose={handleCloseDelN}
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
+      >
+        <DialogContent>게시물을 삭제하시겠습니까?</DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDelY}>확인</Button>
+          <Button onClick={handleCloseDelN}>취소</Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={openDelDone}
+        onClose={handleCloseDelDone}
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
+      >
+        <DialogContent>게시물이 삭제되었습니다.</DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDelDone}>확인</Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={openError}
+        onClose={handleCloseError}
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
+      >
+        <DialogContent> {error} </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseError}>확인</Button>
         </DialogActions>
       </Dialog>
     </Menu>
