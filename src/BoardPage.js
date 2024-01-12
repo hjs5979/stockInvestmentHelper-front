@@ -8,6 +8,10 @@ import {
   Box,
   Button,
   Card,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Grid,
   InputLabel,
   MenuItem,
@@ -27,6 +31,7 @@ import {
 import Menu from './Menu';
 import moment from 'moment';
 import AttachmentIcon from '@mui/icons-material/Attachment';
+import { getError } from './Error';
 
 export default function BoardPage() {
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -46,35 +51,37 @@ export default function BoardPage() {
   //젠킨스 테스트용 주석
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState({ code: '', content: '' });
+
+  // ============================== 게시물 리스트 조회 API start ==============================
+
+  const fetchBoards = async () => {
+    try {
+      // 요청이 시작 할 때에는 error 와 users 를 초기화하고
+      setBoard(null);
+      // loading 상태를 true 로 바꿉니다.
+
+      const response = await axios.post(apiUrl + 'board/list', searchParam);
+
+      setBoard(response.data.content); // 데이터는 response.data 안에 들어있습니다.
+      setBoardCnt(response.data.countBoard);
+    } catch (e) {
+      const error = getError(e);
+
+      setError({ code: error.code, content: error.content });
+      setOpenError(true);
+    }
+  };
+
+  // ============================== 게시물 리스트 조회 API end ================================
 
   useEffect(() => {
-    const fetchBoards = async () => {
-      try {
-        // 요청이 시작 할 때에는 error 와 users 를 초기화하고
-        setError(null);
-        setBoard(null);
-        // loading 상태를 true 로 바꿉니다.
-        setLoading(true);
-        const response = await axios.post(apiUrl + 'board/list', searchParam);
-
-        setBoard(response.data.content); // 데이터는 response.data 안에 들어있습니다.
-        setBoardCnt(response.data.countBoard);
-      } catch (e) {
-        setError(e);
-      }
-      setLoading(false);
-    };
-
     fetchBoards();
   }, [searchParam]);
 
   const search = () => {
     setSearchParam(inqCndt);
   };
-
-  if (error) return <div>에러가 발생했습니다</div>;
-  if (!board) return null;
 
   // const sortedItems = word?.slice(0,30).sort((a, b) => b.wordCount - a.wordCount);
 
@@ -92,6 +99,14 @@ export default function BoardPage() {
   const addFunc = () => {
     navigate('/board/add');
   };
+
+  // ======================== 오류 팝업 start =============================
+  const [openError, setOpenError] = useState(false);
+
+  const handleCloseError = () => {
+    setOpenError(false);
+  };
+  // ======================== 오류 팝업 end =============================
 
   return (
     <Menu stockYn={true}>
@@ -168,6 +183,19 @@ export default function BoardPage() {
           </TableContainer>
         </div>
       </div>
+
+      <Dialog
+        open={openError}
+        onClose={handleCloseError}
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
+      >
+        <DialogTitle> {error.code} </DialogTitle>
+        <DialogContent> {error.content} </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseError}>확인</Button>
+        </DialogActions>
+      </Dialog>
     </Menu>
   );
 }

@@ -9,6 +9,7 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
+  DialogTitle,
   Divider,
   Link,
   List,
@@ -36,6 +37,7 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
 import * as Yup from 'yup';
+import { getError } from './Error';
 
 export default function BoardDetailPage() {
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -44,7 +46,7 @@ export default function BoardDetailPage() {
 
   const param = useParams();
 
-  const [error, setError] = React.useState();
+  const [error, setError] = React.useState({ code: '', content: '' });
 
   const [boardDetail, setBoardDetail] = useState(null);
 
@@ -108,13 +110,12 @@ export default function BoardDetailPage() {
         setInitialValues(response.data);
       }
     } catch (e) {
-      if (
-        (e.response.data?.message == '유효하지 않음1') |
-        (e.response.data?.message == '유효하지 않음2')
-      ) {
+      const error = getError(e);
+
+      if (error.code == 'USER001' || error.code == 'USER002') {
         setOpen(true);
       } else {
-        setError(e.repsonse.data.message);
+        setError({ code: error.code, content: error.content });
         setOpenError(true);
       }
     }
@@ -149,7 +150,9 @@ export default function BoardDetailPage() {
           link.click();
         });
     } catch (e) {
-      setError(e.repsonse.data.message);
+      // const error = getError(e);
+
+      setError({ code: 'ATCH001', content: '파일이 존재하지 않습니다.' });
       setOpenError(true);
     }
   };
@@ -289,13 +292,12 @@ export default function BoardDetailPage() {
         .post(apiUrl + `board/mdfc`, values)
         .then(() => setOpenMdfc(true));
     } catch (e) {
-      if (
-        (e.response.data?.message == '유효하지 않음1') |
-        (e.response.data?.message == '유효하지 않음2')
-      ) {
+      const error = getError(e);
+
+      if (error.code == 'USER001' || error.code == 'USER002') {
         setOpen(true);
       } else {
-        setError(e.repsonse.data.message);
+        setError({ code: error.code, content: error.content });
         setOpenError(true);
       }
     }
@@ -337,8 +339,10 @@ export default function BoardDetailPage() {
         userRole
       ).post(apiUrl + `board/delete`, { boardId: param.boardId });
     } catch (e) {
-      setError(e.repsonse.data.message);
-      setOpenError(e.repsonse.data.message);
+      const error = getError(e);
+
+      setError({ code: error.code, content: error.content });
+      setOpenError(true);
     }
   };
 
@@ -372,7 +376,7 @@ export default function BoardDetailPage() {
   const [openError, setOpenError] = useState(false);
 
   const handleCloseError = () => {
-    setOpenDelDone(false);
+    setOpenError(false);
   };
   // ======================== 오류 팝업 end =============================
 
@@ -680,7 +684,8 @@ export default function BoardDetailPage() {
         aria-labelledby='alert-dialog-title'
         aria-describedby='alert-dialog-description'
       >
-        <DialogContent> {error} </DialogContent>
+        <DialogTitle> {error.code} </DialogTitle>
+        <DialogContent> {error.content} </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseError}>확인</Button>
         </DialogActions>

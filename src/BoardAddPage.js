@@ -11,6 +11,7 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
+  DialogTitle,
   Divider,
   Grid,
   List,
@@ -29,6 +30,7 @@ import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { getAccessToken, getRefreshToken, getUserInfo } from './cookie';
 import { formDataInstance } from './BaseApi';
+import { getError } from './Error';
 
 export default function BoardAddPage() {
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -38,6 +40,8 @@ export default function BoardAddPage() {
   const userId = getUserInfo()?.userId;
   const [accessToken] = React.useState(getAccessToken());
   const [refreshToken] = React.useState(getRefreshToken());
+
+  const [error, setError] = React.useState({ code: '', content: '' });
 
   // ======================== 로그인 확인 팝업 start =============================
   const [open, setOpen] = useState(false);
@@ -67,8 +71,13 @@ export default function BoardAddPage() {
         .post(apiUrl + `board/reg`, values)
         .then(() => setOpenReg(true));
     } catch (e) {
-      if (e.response.data?.message == '유효하지 않음1') {
+      const error = getError(e);
+
+      if (error.code == 'USER001' || error.code == 'USER002') {
         setOpen(true);
+      } else {
+        setError({ code: error.code, content: error.content });
+        setOpenError(true);
       }
     }
   };
@@ -203,6 +212,14 @@ export default function BoardAddPage() {
   };
 
   // ========================== 목록이동 취소 end ===============================
+
+  // ======================== 오류 팝업 start =============================
+  const [openError, setOpenError] = useState(false);
+
+  const handleCloseError = () => {
+    setOpenError(false);
+  };
+  // ======================== 오류 팝업 end =============================
 
   return (
     <Menu stockYn={true}>
@@ -341,6 +358,19 @@ export default function BoardAddPage() {
         <DialogActions>
           <Button onClick={handleCloseCheckY}>확인</Button>
           <Button onClick={handleCloseCheckN}>취소</Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={openError}
+        onClose={handleCloseError}
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
+      >
+        <DialogTitle> {error.code} </DialogTitle>
+        <DialogContent> {error.content} </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseError}>확인</Button>
         </DialogActions>
       </Dialog>
     </Menu>
