@@ -54,7 +54,7 @@ export default function BoardDetailPage() {
   const [accessToken] = React.useState(getAccessToken());
   const [refreshToken] = React.useState(getRefreshToken());
 
-  const userRole = getUserRole();
+  const userRole = getUserInfo() ? getUserInfo.userRole : '';
 
   const [mode, setMode] = React.useState('view');
 
@@ -112,7 +112,11 @@ export default function BoardDetailPage() {
     } catch (e) {
       const error = getError(e);
 
-      if (error.code == 'USER001' || error.code == 'USER002') {
+      if (
+        error.code == 'USER001' ||
+        error.code == 'USER002' ||
+        error.code == 'INPUT001'
+      ) {
         setOpen(true);
       } else {
         setError({ code: error.code, content: error.content });
