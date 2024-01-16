@@ -110,6 +110,7 @@ export default function BoardDetailPage() {
         setInitialValues(response.data);
       }
     } catch (e) {
+      console.log(e);
       const error = getError(e);
 
       if (
