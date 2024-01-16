@@ -54,8 +54,8 @@ export default function BoardDetailPage() {
   const [accessToken] = React.useState(getAccessToken());
   const [refreshToken] = React.useState(getRefreshToken());
 
-  const userRole = getUserInfo() ? getUserInfo.userRole : '';
-
+  const userRole = getUserInfo() ? getUserInfo().userRole : '';
+  console.log(userRole);
   const [mode, setMode] = React.useState('view');
 
   const [initialValues, setInitialValues] = React.useState({
@@ -474,6 +474,12 @@ export default function BoardDetailPage() {
               >
                 수정
               </Button>
+            </div>
+          ) : (
+            ''
+          )}
+          {boardDetail?.boardWrtId == userId || userRole == 'ADMIN' ? (
+            <div>
               <Button
                 variant='outlined'
                 sx={{ marginRight: '10px' }}
