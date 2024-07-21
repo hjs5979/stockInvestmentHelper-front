@@ -1,4 +1,4 @@
-import { Button, Card } from '@mui/material';
+import {Button, Card, Container} from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import PaidIcon from '@mui/icons-material/Paid';
 import SihIcon from './sihicon.png';
@@ -80,17 +80,17 @@ const Menu = ({ children, stockYn }) => {
             <img
               src={SihIcon}
               alt=''
-              style={{ width: '50px', height: '50px' }}
+              style={{ width: '50px', height: '50px', objectFit:'cover' }}
             />
             {/* <img src={SihTypo} alt=""/> */}
-            <div>
+            <Container sx={{display:{ xs: 'none', sm: 'none', md: 'block' }}} >
               <span style={{ fontWeight: 'bold' }}>S</span>
               <span style={{ fontSize: '10px' }}>tock</span>
               <span style={{ fontWeight: 'bold' }}>I</span>
               <span style={{ fontSize: '10px' }}>nvestment</span>
               <span style={{ fontWeight: 'bold' }}>H</span>
               <span style={{ fontSize: '10px' }}>elper</span>
-            </div>
+            </Container>
           </div>
         </Link>
         <Link
@@ -151,6 +151,7 @@ const Menu = ({ children, stockYn }) => {
                 margin: '2px',
                 height: '90vh',
                 overflow: 'auto',
+                display:{ xs: 'none', sm: 'none', md: 'block' }
               }}
             >
               {stock && <StockTable data={stock} />}

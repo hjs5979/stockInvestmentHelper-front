@@ -20,6 +20,8 @@
 .env.development
 .env.production
 .env
+.idea
+
 
 npm-debug.log*
 yarn-debug.log*

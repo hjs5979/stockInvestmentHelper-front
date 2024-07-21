@@ -103,11 +103,12 @@ export default function MainPage() {
             }}
           >
             {result && (
+
               <TagCloud
                 minSize={40}
                 maxSize={100}
                 tags={result}
-                style={{ textAlign: 'center' }}
+                style={{ textAlign: 'center', fontFamily: 'TheJamsil4Medium' }}
                 randomSeed={42}
                 renderer={customRender}
               />

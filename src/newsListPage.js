@@ -41,17 +41,17 @@ export default function NewsListPage(props) {
     <Menu stockYn={true}>
       <div>
         <div className='newsList'>
-          <Box>
+          <Box sx={{marginX: '20px', marginY:'2px'}}>
             <TableContainer
               component={Paper}
-              sx={{ margin: '20px', width: '1200px' }}
+              sx={{ width: '100%' }}
             >
               <Table size='small'>
                 <TableHead>
                   <TableRow>
-                    <TableCell align='center'>기사제목</TableCell>
+                    <TableCell align='center' sx={{color: 'white',backgroundColor: '#3183f6', fontWeight:'700'}}>기사제목</TableCell>
                     {/* <TableCell align="right">카테고리</TableCell> */}
-                    <TableCell align='center'>링크</TableCell>
+                    <TableCell align='center' sx={{color: 'white',backgroundColor: '#3183f6', fontWeight:'700'}}>링크</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>

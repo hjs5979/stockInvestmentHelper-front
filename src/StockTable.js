@@ -38,14 +38,14 @@ export default function StockTable(props) {
           <TableHead>
             <TableRow>
               {/* <TableCell>No</TableCell> */}
-              <TableCell align='right'>테마</TableCell>
-              <TableCell align='right'>
+              <TableCell align='right' sx={{color: 'white',backgroundColor: '#3183f6', fontWeight:'700'}}>테마</TableCell>
+              <TableCell align='right' sx={{backgroundColor: '#3183f6'}}>
                 <TableSortLabel
                   active={true}
                   direction={order}
                   onClick={createSortHandler}
                 >
-                  전일대비등락
+                  <span className={'text-white font-bold'}>전일대비등락</span>
                   <Box component='span' sx={visuallyHidden}>
                     {order === 'desc'
                       ? 'sorted descending'

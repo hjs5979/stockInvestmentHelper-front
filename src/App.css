@@ -1,3 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'TheJamsil4Medium';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil4Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+}
+
+.MuiTableSortLabel-icon{
+  color: white !important;
+}
+
 .App {
   text-align: center;
 }

@@ -16,6 +16,7 @@ import BoardAddPage from './BoardAddPage';
 import MypagePage from './MypagePage';
 
 import { Card } from '@mui/material';
+import TestPage from './TestPage';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path='/board/:boardId' exact element={<BoardDetailPage />} />
         <Route path='/board/add' exact element={<BoardAddPage />} />
         <Route path='/mypage' exact element={<MypagePage />} />
+        <Route path='/test' exact element={<TestPage />} />
       </Routes>
     </ThemeProvider>
   );
