@@ -23,10 +23,15 @@ import StockTable from './StockTable';
 import { Formik, Field, Form, ErrorMessage, useFormik } from 'formik';
 import * as Yup from 'yup';
 import Menu from './Menu';
-import { getUserInfo } from './cookie';
+import { getAccessToken, getRefreshToken, getUserInfo } from './cookie';
+import { instance } from './BaseApi';
 
 export default function MypagePage() {
   const apiUrl = process.env.REACT_APP_API_URL;
+
+  const userId = getUserInfo()?.userId;
+  const [accessToken] = React.useState(getAccessToken());
+  const [refreshToken] = React.useState(getRefreshToken());
 
   // ---------------------- 비밀번호 오류 팝업 start ----------------------------------
   const [pwOpen, setPwOpen] = useState(false);
@@ -177,11 +182,10 @@ export default function MypagePage() {
 
   const mdfcPassword = async (values) => {
     try {
-      const response = await axios
+      const response = await instance(accessToken, refreshToken, userId)
         .post(
           apiUrl + 'user/mdfcPassword',
           {
-            userId: values.id,
             userPassword: values.exPassword,
             newPassword: values.newPassword,
           },
@@ -199,7 +203,6 @@ export default function MypagePage() {
 
   const pwFormik = useFormik({
     initialValues: {
-      id: '',
       exPassword: '',
       newPassword: '',
     },
@@ -215,13 +218,13 @@ export default function MypagePage() {
     validate: (values) => {},
     onSubmit: (values) => {
       console.log('test');
-      // mdfcPassword(values);
+      mdfcPassword(values);
     },
   });
 
   //formik 에러 제어
   const isPwFormikError = (name) => {
-    return Boolean(formik.touched[name] && formik.errors[name]);
+    return Boolean(pwFormik.touched[name] && pwFormik.errors[name]);
   };
   // --------------------------- 비밀번호 수정 end ----------------------------------------
 
@@ -390,7 +393,7 @@ export default function MypagePage() {
             />
             {isPwFormikError('exPassword') ? (
               <span style={{ color: '#ff0000' }}>
-                {formik.errors.exPassword}
+                {pwFormik.errors.exPassword}
               </span>
             ) : (
               ''
@@ -406,13 +409,15 @@ export default function MypagePage() {
               onChange={pwFormik.handleChange}
               type='password'
             />
-            {isPwFormikError('newPassword') ? (
-              <span style={{ color: '#ff0000' }}>
-                {formik.errors.newPassword}
-              </span>
-            ) : (
-              ''
-            )}
+            <div>
+              {isPwFormikError('newPassword') ? (
+                <span style={{ color: '#ff0000', fontSize: '9px' }}>
+                  {pwFormik.errors.newPassword}
+                </span>
+              ) : (
+                ''
+              )}
+            </div>
           </DialogContent>
           <DialogActions>
             <form onSubmit={pwFormik.handleSubmit}>

@@ -43,7 +43,7 @@ export default function SigninPage() {
   //아이디 중복체크 api
   const idcheck = async () => {
     try {
-      const response = await axios.post(apiUrl + 'user/idcheck', {
+      const response = await axios.post(apiUrl + '/idcheck', {
         userId: formik.values.id,
       });
 

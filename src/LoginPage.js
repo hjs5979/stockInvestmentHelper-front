@@ -111,32 +111,34 @@ export default function LoginPage() {
   // console.log(formik.values)
   return (
     <Menu>
-      <div style={{ display: 'grid', placeItems: 'center' }}>
-        <p style={{ fontWeight: 'bold', fontSize: '30px' }}>로그인</p>
-        <div>
-          <TextField
-            style={{ width: '300px' }}
-            id='id'
-            name='id'
-            label='ID'
-            variant='outlined'
-            onChange={formik.handleChange}
-          />
-          {/* {formik.errors.id && <div>{formik.errors.id}</div>} */}
-        </div>
-        <div style={{ marginTop: '10px' }}>
-          <TextField
-            style={{ width: '300px' }}
-            type='password'
-            id='password'
-            name='password'
-            label='PASSWORD'
-            variant='outlined'
-            onChange={formik.handleChange}
-          />
-          {/* {formik.errors.password && <div>{formik.errors.password}</div>} */}
-        </div>
-        <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={formik.handleSubmit}>
+        <div style={{ display: 'grid', placeItems: 'center' }}>
+          <p style={{ fontWeight: 'bold', fontSize: '30px' }}>로그인</p>
+
+          <div>
+            <TextField
+              style={{ width: '300px' }}
+              id='id'
+              name='id'
+              label='ID'
+              variant='outlined'
+              onChange={formik.handleChange}
+            />
+            {/* {formik.errors.id && <div>{formik.errors.id}</div>} */}
+          </div>
+          <div style={{ marginTop: '10px' }}>
+            <TextField
+              style={{ width: '300px' }}
+              type='password'
+              id='password'
+              name='password'
+              label='PASSWORD'
+              variant='outlined'
+              onChange={formik.handleChange}
+            />
+            {/* {formik.errors.password && <div>{formik.errors.password}</div>} */}
+          </div>
+
           <Button
             type='submit'
             style={{ marginTop: '10px', width: '100px' }}
@@ -144,27 +146,26 @@ export default function LoginPage() {
           >
             LOGIN
           </Button>
-        </form>
-
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby='alert-dialog-title'
-          aria-describedby='alert-dialog-description'
-        >
-          {/* <DialogTitle id="alert-dialog-title">
+        </div>
+      </form>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
+      >
+        {/* <DialogTitle id="alert-dialog-title">
           {"Use Google's location service?"}
         </DialogTitle> */}
-          <DialogContent>
-            <DialogContentText id='alert-dialog-description'>
-              아이디 또는 비밀번호가 일치하지 않습니다.
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>확인</Button>
-          </DialogActions>
-        </Dialog>
-      </div>
+        <DialogContent>
+          <DialogContentText id='alert-dialog-description'>
+            아이디 또는 비밀번호가 일치하지 않습니다.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>확인</Button>
+        </DialogActions>
+      </Dialog>
     </Menu>
   );
 }
