@@ -231,11 +231,13 @@ export default function MypagePage() {
   return (
     <Menu>
       <div style={{ display: 'grid', placeItems: 'center' }}>
-        <p style={{ fontWeight: 'bold' }}>아이디</p>
-        <Typography sx={{ marginRight: '10px' }} sxvariant='h6' component='h6'>
-          {getUserInfo()?.userId}
-        </Typography>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <p style={{ fontWeight: 'bold' }}>아이디</p>
 
+          <Typography sx={{ marginTop: '20px' }} sxvariant='h6' component='h6'>
+            {getUserInfo()?.userId}
+          </Typography>
+        </div>
         {/* <form onSubmit={pwFormik.handleSubmit}> */}
         <Button
           style={{ marginTop: '20px', width: '150px' }}
@@ -245,13 +247,16 @@ export default function MypagePage() {
           비밀번호 수정
         </Button>
 
-        <p style={{ fontWeight: 'bold' }}>이름</p>
-        <Typography sx={{ marginRight: '10px' }} sxvariant='h6' component='h6'>
+        <p style={{ fontWeight: 'bold', marginTop: '20px' }}>이름</p>
+        <Typography sx={{ marginTop: '20px' }} sxvariant='h6' component='h6'>
           {getUserInfo()?.userName}
         </Typography>
 
-        <p>이메일</p>
-        <div style={{ display: 'flex' }}>
+        <p style={{ fontWeight: 'bold', marginTop: '20px' }}>이메일</p>
+
+        <div
+          style={{ display: 'flex', marginTop: '20px', alignItems: 'center' }}
+        >
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <TextField
               style={{ width: '200px', marginRight: '10px' }}
@@ -269,7 +274,7 @@ export default function MypagePage() {
               ''
             )}
           </div>
-          <p> @ </p>
+          <p style={{}}> @ </p>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <TextField
               style={{ width: '200px', marginLeft: '10px' }}
