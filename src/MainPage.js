@@ -60,7 +60,7 @@ export default function MainPage() {
   const customRender = (tag, size, color) => {
     return (
       <Link
-        to={`/${tag.key}`}
+        to={`/word?wordId=${tag.key}`}
         state={{
           word: tag.value,
           id: tag.key,
@@ -103,7 +103,6 @@ export default function MainPage() {
             }}
           >
             {result && (
-
               <TagCloud
                 minSize={40}
                 maxSize={100}

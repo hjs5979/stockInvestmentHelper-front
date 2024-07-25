@@ -23,7 +23,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <Routes>
         <Route path='/' exact element={<MainPage />} />
-        <Route path='/:word' exact element={<NewsListPage />} />
+        <Route path='/word' exact element={<NewsListPage />} />
         <Route path='/login' exact element={<LoginPage />} />
         <Route path='/signup' exact element={<SignupPage />} />
         <Route path='/board' exact element={<BoardPage />} />
