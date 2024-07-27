@@ -4,8 +4,7 @@ import { TagCloud } from 'react-tagcloud';
 import './App.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { Box, Card, Grid, Typography } from '@mui/material';
-import StockTable from './StockTable';
+import { Box, Card } from '@mui/material';
 import Menu from './Menu';
 
 export default function MainPage() {

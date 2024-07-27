@@ -6,16 +6,12 @@ import NewsListPage from './newsListPage';
 import MainPage from './MainPage';
 import { ThemeProvider } from '@emotion/react';
 import theme from './theme';
-import Menu from './Menu';
 import LoginPage from './LoginPage';
 import SignupPage from './SignupPage';
 import BoardPage from './BoardPage';
-import StockTable from './StockTable';
 import BoardDetailPage from './BoardDetailPage';
 import BoardAddPage from './BoardAddPage';
 import MypagePage from './MypagePage';
-
-import { Card } from '@mui/material';
 import TestPage from './TestPage';
 
 function App() {

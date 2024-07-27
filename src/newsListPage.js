@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Link,
-  useLocation,
-  useParams,
-  useSearchParams,
-} from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
-import NewsListTable from './newsListTable';
 import {
   Box,
   Button,
@@ -26,7 +20,6 @@ export default function NewsListPage(props) {
   const [searchParams] = useSearchParams();
   const wordId = searchParams.get('wordId');
   const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [wordContent, setWordContent] = useState('');
   const [inqCndtCon, setInqCndtCon] = useState('');
 
@@ -67,7 +60,7 @@ export default function NewsListPage(props) {
               <Typography
                 variant='h4'
                 gutterBottom
-                sx={{ marginRight: '10px' }}
+                sx={{ marginRight: 'auto', fontWeight: '700' }}
               >
                 {`"${wordContent}"`}
               </Typography>

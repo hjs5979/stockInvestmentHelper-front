@@ -8,7 +8,7 @@ import {
   TableRow,
 } from '@mui/material';
 import React from 'react';
-import { Box, Card, Grid, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 
 export default function NewsListTable(props) {
   const newsListData = props.data;

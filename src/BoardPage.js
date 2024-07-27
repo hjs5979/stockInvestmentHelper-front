@@ -110,7 +110,7 @@ export default function BoardPage() {
 
   return (
     <Menu stockYn={true}>
-      <div>
+      <div style={{ width: '69%' }}>
         <div style={{ display: 'flex', marginTop: '20px', marginLeft: '20px' }}>
           {/* <InputLabel id="demo-simple-select-label">Age</InputLabel> */}
           <Select
@@ -134,7 +134,7 @@ export default function BoardPage() {
           </Button>
 
           <Button
-            sx={{ marginLeft: 'auto', marginRight: '100px' }}
+            sx={{ marginLeft: 'auto' }}
             onClick={() => addFunc()}
             variant='contained'
           >
@@ -150,12 +150,57 @@ export default function BoardPage() {
             <Table size='small'>
               <TableHead>
                 <TableRow>
-                  <TableCell align='center'>순번</TableCell>
+                  <TableCell
+                    sx={{
+                      color: 'white',
+                      backgroundColor: '#3183f6',
+                      fontWeight: '700',
+                    }}
+                    align='center'
+                  >
+                    순번
+                  </TableCell>
                   {/* <TableCell align="right">카테고리</TableCell> */}
-                  <TableCell align='center'>제목</TableCell>
-                  <TableCell align='center'>첨부파일</TableCell>
-                  <TableCell align='center'>작성자ID</TableCell>
-                  <TableCell align='center'>등록일자</TableCell>
+                  <TableCell
+                    sx={{
+                      color: 'white',
+                      backgroundColor: '#3183f6',
+                      fontWeight: '700',
+                    }}
+                    align='center'
+                  >
+                    제목
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      color: 'white',
+                      backgroundColor: '#3183f6',
+                      fontWeight: '700',
+                    }}
+                    align='center'
+                  >
+                    첨부파일
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      color: 'white',
+                      backgroundColor: '#3183f6',
+                      fontWeight: '700',
+                    }}
+                    align='center'
+                  >
+                    작성자ID
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      color: 'white',
+                      backgroundColor: '#3183f6',
+                      fontWeight: '700',
+                    }}
+                    align='center'
+                  >
+                    등록일자
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>

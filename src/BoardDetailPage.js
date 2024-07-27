@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 // import * as React from "react";
 import './App.css';
-import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
+  Box,
   Button,
   Card,
   Dialog,
@@ -14,29 +14,20 @@ import {
   Link,
   List,
   ListItem,
-  ListItemText,
+  Paper,
   TextField,
   Typography,
 } from '@mui/material';
 import Menu from './Menu';
-import {
-  getAccessToken,
-  getRefreshToken,
-  getUserInfo,
-  getUserRole,
-  setAccessToken,
-  setRefreshToken,
-} from './cookie';
+import { getAccessToken, getRefreshToken, getUserInfo } from './cookie';
 import { dnldInstance, formDataInstance, instance } from './BaseApi';
 import DOMPurify from 'dompurify';
 import moment from 'moment';
-import { Formik, Field, Form, ErrorMessage, useFormik } from 'formik';
+import { useFormik } from 'formik';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
-import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
-import * as Yup from 'yup';
 import { getError } from './Error';
 
 export default function BoardDetailPage() {
@@ -114,9 +105,9 @@ export default function BoardDetailPage() {
       const error = getError(e);
 
       if (
-        error.code == 'USER001' ||
-        error.code == 'USER002' ||
-        error.code == 'INPUT001'
+        error.code === 'USER001' ||
+        error.code === 'USER002' ||
+        error.code === 'INPUT001'
       ) {
         setOpen(true);
       } else {
@@ -256,7 +247,7 @@ export default function BoardDetailPage() {
     // console.log(e.currentTarget.value);
 
     const filteredFileList = formik.values.fileList.filter(
-      (item, index) => index != e.currentTarget.value
+      (item, index) => index !== e.currentTarget.value
     );
 
     const cancelFile = formik.values.fileList[e.currentTarget.value];
@@ -299,7 +290,7 @@ export default function BoardDetailPage() {
     } catch (e) {
       const error = getError(e);
 
-      if (error.code == 'USER001' || error.code == 'USER002') {
+      if (error.code === 'USER001' || error.code === 'USER002') {
         setOpen(true);
       } else {
         setError({ code: error.code, content: error.content });
@@ -387,10 +378,16 @@ export default function BoardDetailPage() {
 
   const ViewTemplate = () => {
     return (
-      <div>
+      <div style={{ width: '90%' }}>
         <Typography variant='h2' component='h2'>
           {boardDetail?.boardTitle}
         </Typography>
+        <Divider
+          sx={{
+            marginTop: '10px',
+            marginBottom: '10px',
+          }}
+        ></Divider>
         <div
           style={{
             display: 'flex',
@@ -425,13 +422,24 @@ export default function BoardDetailPage() {
             {moment(boardDetail?.boardCretTs).format('YYYY-MM-DD')}
           </Typography>
         </div>
+        <Divider
+          sx={{
+            marginTop: '10px',
+            marginBottom: '10px',
+          }}
+        ></Divider>
         <div
           style={{ height: '300px' }}
           dangerouslySetInnerHTML={{
             __html: DOMPurify.sanitize(boardDetail?.boardContent),
           }}
         ></div>
-
+        <Divider
+          sx={{
+            marginTop: '10px',
+            marginBottom: '10px',
+          }}
+        ></Divider>
         <List>
           {boardDetail?.fileList &&
             boardDetail?.fileList.length > 0 &&
@@ -456,8 +464,13 @@ export default function BoardDetailPage() {
               </div>
             ))}
         </List>
-
-        <div style={{ display: 'flex', width: '1000px' }}>
+        <Divider
+          sx={{
+            marginTop: '10px',
+            marginBottom: '10px',
+          }}
+        ></Divider>
+        <div style={{ display: 'flex' }}>
           <Button
             variant='outlined'
             onClick={() => navigate(`/board`)}
@@ -465,12 +478,12 @@ export default function BoardDetailPage() {
           >
             목록
           </Button>
-          {boardDetail?.boardWrtId == userId ? (
+          {boardDetail?.boardWrtId === userId ? (
             <div>
               <Button
                 variant='contained'
                 onClick={() => setMode('mdfc')}
-                sx={{ marginRight: '10px' }}
+                sx={{ margin: 'auto' }}
               >
                 수정
               </Button>
@@ -478,11 +491,11 @@ export default function BoardDetailPage() {
           ) : (
             ''
           )}
-          {boardDetail?.boardWrtId == userId || userRole == 'ADMIN' ? (
+          {boardDetail?.boardWrtId === userId || userRole === 'ADMIN' ? (
             <div>
               <Button
                 variant='outlined'
-                sx={{ marginRight: '10px' }}
+                sx={{ margin: 'auto' }}
                 onClick={() => setOpenDel(true)}
               >
                 삭제
@@ -498,9 +511,9 @@ export default function BoardDetailPage() {
 
   return (
     <Menu stockYn={true}>
-      {mode == 'view' ? <ViewTemplate></ViewTemplate> : ''}
+      {mode === 'view' ? <ViewTemplate></ViewTemplate> : ''}
 
-      {mode == 'mdfc' ? (
+      {mode === 'mdfc' ? (
         <div>
           <div>
             <div
@@ -522,7 +535,11 @@ export default function BoardDetailPage() {
               />
             </div>
             <ReactQuill
-              style={{ width: '1000px', height: '600px', marginBottom: '50px' }}
+              style={{
+                width: '1000px',
+                height: '600px',
+                marginBottom: '50px',
+              }}
               modules={modules}
               id='boardContent'
               value={formik.values?.boardContent}
