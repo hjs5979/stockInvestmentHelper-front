@@ -110,7 +110,7 @@ export default function BoardPage() {
 
   return (
     <Menu stockYn={true}>
-      <div style={{ width: '69%' }}>
+      <div style={{ width: '79%' }}>
         <div style={{ display: 'flex', marginTop: '20px', marginLeft: '20px' }}>
           {/* <InputLabel id="demo-simple-select-label">Age</InputLabel> */}
           <Select
