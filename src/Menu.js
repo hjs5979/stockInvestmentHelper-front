@@ -77,7 +77,12 @@ const Menu = ({ children, stockYn }) => {
 
   return (
     <div>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
         <Link to={'/'} style={{ textDecoration: 'none', color: 'black' }}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <img

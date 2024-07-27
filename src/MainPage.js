@@ -43,7 +43,7 @@ export default function MainPage() {
   if (!stock) return null;
 
   const sortedItems = word
-    ?.slice(0, 40)
+    ?.slice(0, 60)
     .sort((a, b) => b.wordCount - a.wordCount);
 
   let result = sortedItems?.map(
@@ -83,7 +83,15 @@ export default function MainPage() {
 
   return (
     <Menu stockYn={true}>
-      <Box sx={{ display: 'flex', margin: '2rem', justifyContent: 'center' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          margin: '2rem',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100%',
+        }}
+      >
         <Box
           sx={{
             display: 'flex',
@@ -97,8 +105,9 @@ export default function MainPage() {
             sx={{
               display: 'flex',
               alignSelf: 'center',
-              alignItems: 'center',
               margin: '2px',
+              width: '80%',
+              marginBottom: '100px',
             }}
           >
             {result && (
@@ -113,16 +122,6 @@ export default function MainPage() {
             )}
           </Card>
         </Box>
-        {/* <Card
-          sx={{
-            flexGrow: 1,
-            margin: '2px',
-            height: '90vh',
-            overflow: 'auto',
-          }}
-        >
-          {stock && <StockTable data={stock} />}
-        </Card> */}
       </Box>
     </Menu>
   );
